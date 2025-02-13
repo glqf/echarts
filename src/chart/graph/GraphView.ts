@@ -17,7 +17,6 @@
 * under the License.
 */
 
-import * as zrUtil from 'zrender/src/core/util';
 import SymbolDraw, { ListForSymbolDraw } from '../helper/SymbolDraw';
 import LineDraw from '../helper/LineDraw';
 import RoamController, { RoamControllerHost } from '../../component/helper/RoamController';
@@ -172,7 +171,7 @@ class GraphView extends ChartView {
                     }
                 });
             }
-            el.setDraggable(draggable && !!forceLayout, !!itemModel.get('cursor'));
+            el.setDraggable(draggable, !!itemModel.get('cursor'));
 
             const focus = itemModel.get(['emphasis', 'focus']);
 
@@ -209,6 +208,8 @@ class GraphView extends ChartView {
     }
 
     dispose() {
+        this.remove();
+
         this._controller && this._controller.dispose();
         this._controllerHost = null;
     }
@@ -301,7 +302,11 @@ class GraphView extends ChartView {
         this._lineDraw.updateLayout();
     }
 
-    remove(ecModel: GlobalModel, api: ExtensionAPI) {
+    remove() {
+        clearTimeout(this._layoutTimeout);
+        this._layouting = false;
+        this._layoutTimeout = null;
+
         this._symbolDraw && this._symbolDraw.remove();
         this._lineDraw && this._lineDraw.remove();
     }

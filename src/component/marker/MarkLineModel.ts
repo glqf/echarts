@@ -88,7 +88,7 @@ export interface MarkLineOption extends MarkerOption,
     symbol?: string[] | string
     symbolSize?: number[] | number
     symbolRotate?: number[] | number
-    symbolOffset?: number | string | (number | string)[]
+    symbolOffset?: number | string | (number | string)[] | (number | string)[][]
 
     /**
      * Precision used on statistic method
@@ -118,7 +118,7 @@ class MarkLineModel extends MarkerModel<MarkLineOption> {
         symbol: ['circle', 'arrow'],
         symbolSize: [8, 16],
 
-        //symbolRotate: 0,
+        // symbolRotate: 0,
         symbolOffset: 0,
 
         precision: 2,
